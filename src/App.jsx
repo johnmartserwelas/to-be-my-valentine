@@ -61,7 +61,6 @@ function App() {
   // State management
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [displayedLines, setDisplayedLines] = useState([]);
-  const [isTyping, setIsTyping] = useState(true);
   const [showProposal, setShowProposal] = useState(false);
   const [showEnvelope, setShowEnvelope] = useState(true);
   const [envelopeOpened, setEnvelopeOpened] = useState(false);
@@ -75,25 +74,23 @@ function App() {
   
   const audioRef = useRef(null);
 
-  // Typing animation effect for story lines
+  // Typing animation effect for story lines - Smooth fade in
   useEffect(() => {
     if (!envelopeOpened || showProposal) return;
 
     if (currentLineIndex < STORY_LINES.length) {
-      setIsTyping(true);
       const timer = setTimeout(() => {
         setDisplayedLines(prev => [...prev, STORY_LINES[currentLineIndex]]);
         setCurrentLineIndex(prev => prev + 1);
-        setIsTyping(false);
-      }, 2500); // Delay between lines
+      }, 2200); // Smooth delay between lines
 
       return () => clearTimeout(timer);
     } else {
-      // All lines shown, show proposal after a delay
+      // All lines shown, show proposal after a gentle delay
       const timer = setTimeout(() => {
         setShowProposal(true);
         triggerHeartAnimation();
-      }, 2000);
+      }, 1500);
       return () => clearTimeout(timer);
     }
   }, [currentLineIndex, envelopeOpened, showProposal]);
@@ -323,16 +320,13 @@ function App() {
                 {displayedLines.map((line, index) => (
                   <p
                     key={index}
-                    className={`story-line ${index === displayedLines.length - 1 && isTyping ? 'typing' : ''}`}
-                    style={{ animationDelay: `${index * 0.3}s` }}
+                    className="story-line"
+                    style={{ animationDelay: `${index * 0.15}s` }}
                   >
                     <span className="line-number">{String(index + 1).padStart(2, '0')}</span>
                     {line}
                   </p>
                 ))}
-                {isTyping && currentLineIndex < STORY_LINES.length && (
-                  <span className="cursor">|</span>
-                )}
               </div>
 
               {/* Proposal section */}
