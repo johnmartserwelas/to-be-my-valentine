@@ -71,8 +71,21 @@ function App() {
   const [sparkles, setSparkles] = useState([]);
   const [confetti, setConfetti] = useState([]);
   const [isEnvelopeTouched, setIsEnvelopeTouched] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   
   const audioRef = useRef(null);
+
+  // Detect mobile screen on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 480);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Typing animation effect for story lines - Smooth fade in
   useEffect(() => {
@@ -223,7 +236,9 @@ function App() {
   };
 
   // Calculate button sizes based on "No" clicks
-  const yesButtonScale = 1 + noClickCount * 0.12;
+  // Limit max scale on mobile screens to prevent cutoff
+  const maxYesScale = isMobile ? 1.3 : 1.84; // Limit to 1.3x on mobile, 1.84x on desktop
+  const yesButtonScale = Math.min(1 + noClickCount * 0.12, maxYesScale);
   const noButtonScale = Math.max(0.6, 1 - noClickCount * 0.08);
 
   return (
