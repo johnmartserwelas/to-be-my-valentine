@@ -71,6 +71,7 @@ function App() {
   const [floatingHearts, setFloatingHearts] = useState([]);
   const [sparkles, setSparkles] = useState([]);
   const [confetti, setConfetti] = useState([]);
+  const [isEnvelopeTouched, setIsEnvelopeTouched] = useState(false);
   
   const audioRef = useRef(null);
 
@@ -175,6 +176,22 @@ function App() {
     setShowEnvelope(false);
   };
 
+  // Handle touch start for envelope (shows flap animation on mobile)
+  const handleEnvelopeTouchStart = () => {
+    setIsEnvelopeTouched(true);
+  };
+
+  // Handle touch end for envelope
+  const handleEnvelopeTouchEnd = (e) => {
+    e.preventDefault();
+    if (isEnvelopeTouched) {
+      // Small delay to show the flap animation before opening
+      setTimeout(() => {
+        handleEnvelopeClick();
+      }, 300);
+    }
+  };
+
   // Handle "Yes" button click
   const handleYesClick = () => {
     setShowCelebration(true);
@@ -263,8 +280,13 @@ function App() {
         
         {/* Envelope opening animation */}
         {showEnvelope && (
-          <div className="envelope-container" onClick={handleEnvelopeClick}>
-            <div className="envelope">
+          <div 
+            className="envelope-container" 
+            onClick={handleEnvelopeClick}
+            onTouchStart={handleEnvelopeTouchStart}
+            onTouchEnd={handleEnvelopeTouchEnd}
+          >
+            <div className={`envelope ${isEnvelopeTouched ? 'touched' : ''}`}>
               <div className="envelope-shadow"></div>
               <div className="envelope-back"></div>
               <div className="envelope-letter">
