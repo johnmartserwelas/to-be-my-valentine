@@ -289,6 +289,11 @@ function App() {
               <div className="envelope-letter">
                 <div className="letter-content">
                   <span className="letter-heart">💕</span>
+                  <div className="letter-decor">
+                    <span>♡</span>
+                    <span>♡</span>
+                    <span>♡</span>
+                  </div>
                 </div>
               </div>
               <div className="envelope-flap"></div>

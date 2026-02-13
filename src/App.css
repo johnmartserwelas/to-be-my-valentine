@@ -289,17 +289,22 @@ body {
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  animation: container-appear 1s ease-out;
+  animation: envelope-soft-appear 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform-origin: center center;
 }
 
-@keyframes container-appear {
-  from {
+@keyframes envelope-soft-appear {
+  0% {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px) scale(0.95);
   }
-  to {
+  60% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -353,7 +358,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: 220px;
-  height: 100px;
+  height: 110px;
   background: linear-gradient(180deg, #FFFFFF 0%, #FFFBFC 100%);
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -363,6 +368,7 @@ body {
   z-index: 2;
   transition: transform 0.4s ease;
   border: 1px solid rgba(248, 165, 194, 0.1);
+  overflow: visible;
 }
 
 .envelope:hover .envelope-letter,
@@ -372,16 +378,67 @@ body {
 
 .letter-content {
   text-align: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .letter-heart {
   font-size: 1.8rem;
-  animation: letter-pulse 2s ease-in-out infinite;
+  animation: letter-heartbeat 1.2s ease-in-out infinite;
+  display: block;
+  line-height: 1;
 }
 
-@keyframes letter-pulse {
+.letter-decor {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.7rem;
+  color: var(--primary-pink);
+  opacity: 0.5;
+}
+
+.letter-decor span {
+  animation: decor-float 3s ease-in-out infinite;
+}
+
+.letter-decor span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.letter-decor span:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.letter-decor span:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes decor-float {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-3px);
+    opacity: 0.8;
+  }
+}
+
+@keyframes letter-heartbeat {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  15% { transform: scale(1.1); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.08); }
+  60% { transform: scale(1); }
 }
 
 /* ===== ENVELOPE FLAP (triangular top) ===== */
@@ -763,18 +820,17 @@ body {
   animation: proposal-fade-in 1.5s ease-out;
   padding: var(--spacing-xl) var(--spacing-lg);
   margin-top: var(--spacing-md);
+  width: 100%;
 }
 
 @keyframes proposal-fade-in {
   from {
     opacity: 0;
     transform: translateY(20px);
-    filter: blur(4px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
   }
 }
 
@@ -806,6 +862,7 @@ body {
 .celebration-heart {
   position: absolute;
   bottom: 0;
+  left: 0;
   animation: heart-rise 4s ease-out infinite;
   pointer-events: none;
   z-index: 1;
@@ -1202,7 +1259,7 @@ body {
   
   .envelope-letter {
     width: 200px;
-    height: 110px;
+    height: 100px;
     top: 15px;
   }
   
@@ -1281,7 +1338,18 @@ body {
   }
   
   .envelope-container {
-    transform: scale(0.9);
+    animation: none;
+    opacity: 0;
+    animation: simple-fade-in 1s ease-out forwards;
+  }
+  
+  @keyframes simple-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
   
   .envelope {
@@ -1305,12 +1373,12 @@ body {
   
   .envelope-letter {
     width: 180px;
-    height: 100px;
+    height: 90px;
     top: 12px;
   }
   
   .letter-heart {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
   
   .envelope-heart {
@@ -1476,7 +1544,9 @@ body {
   }
   
   .envelope-container {
-    transform: scale(0.85);
+    animation: none;
+    opacity: 0;
+    animation: simple-fade-in 1s ease-out forwards;
   }
   
   .envelope {
@@ -1565,7 +1635,9 @@ body {
   }
   
   .envelope-container {
-    transform: scale(0.8);
+    animation: none;
+    opacity: 0;
+    animation: simple-fade-in 1s ease-out forwards;
   }
   
   .envelope {
@@ -1607,7 +1679,9 @@ body {
   }
   
   .envelope-container {
-    transform: scale(0.7);
+    animation: none;
+    opacity: 0;
+    animation: simple-fade-in 1s ease-out forwards;
   }
   
   .envelope-hint {
